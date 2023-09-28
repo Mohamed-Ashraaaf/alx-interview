@@ -1,6 +1,11 @@
 #!/usr/bin/python3
+""" pascal triangle quiz
+"""
+
 
 def pascal_triangle(n):
+    """ solves the quiz
+    """
     if n <= 0:
         return []
 
