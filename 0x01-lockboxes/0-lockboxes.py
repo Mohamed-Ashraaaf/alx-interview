@@ -1,29 +1,30 @@
 #!/usr/bin/python3
+"""
+    Lockboxes key
+"""
+
 
 def canUnlockAll(boxes):
-    if not boxes or not boxes[0]:
+    """
+        Returns value if all boxes can opened
+    """
+    # check if boxes is empty
+    if len(boxes) == 0:
         return False
 
-    n = len(boxes)
-    visited = [False] * n
-    visited[0] = True
-    stack = [0]
+    unlocked_set = set()
+    unlocked_set.add(0)
 
-    while stack:
-        current_box = stack.pop()
-        for key in boxes[current_box]:
-            if 0 <= key < n and not visited[key]:
-                visited[key] = True
-                stack.append(key)
+    for index, val in enumerate(boxes):
+        # check if index box can't be unlocked
+        if index not in unlocked_set:
+            return False
 
-    return all(visited)
+        # add key indexes from unlocked box
+        for elem in val:
+            # go to each elem index and update the set
+            if elem < len(boxes) and elem > index:
+                unlocked_set.update(boxes[elem])
+        unlocked_set.update(val)
 
-if __name__ == "__main__":
-    boxes1 = [[1], [2], [3], [4], []]
-    print(canUnlockAll(boxes1))
-
-    boxes2 = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
-    print(canUnlockAll(boxes2))
-
-    boxes3 = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
-    print(canUnlockAll(boxes3))
+    return True
